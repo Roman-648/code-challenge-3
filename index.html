@@ -73,19 +73,19 @@
         const ticketNum = document.getElementById("ticket-num");
         const buyTicketButton = document.getElementById("buy-ticket");
       
-        // Fetch all films from the server
+        
         const fetchFilms = async () => {
           const response = await fetch("http://localhost:3000/films");
           const films = await response.json();
           renderFilmList(films);
           if (films.length > 0) {
-            renderFilmDetails(films[0]); // Load the first film by default
+            renderFilmDetails(films[0]); 
           }
         };
       
-        // Render the film list
+       
         const renderFilmList = (films) => {
-          filmList.innerHTML = ""; // Clear existing films
+          filmList.innerHTML = "";
           films.forEach(film => {
             const li = document.createElement("li");
             li.className = "film item";
@@ -107,7 +107,7 @@
           });
         };
       
-        // Render the selected film's details
+       
         const renderFilmDetails = (film) => {
           poster.src = film.poster;
           title.textContent = film.title;
@@ -129,7 +129,7 @@
           buyTicketButton.onclick = () => buyTicket(film);
         };
       
-        // Buy a ticket for the selected film
+        
         const buyTicket = async (film) => {
           if (film.tickets_sold < film.capacity) {
             const updatedTicketsSold = film.tickets_sold + 1;
@@ -142,7 +142,7 @@
               body: JSON.stringify({ tickets_sold: updatedTicketsSold })
             });
       
-            // Optionally, save the ticket purchase
+           
             await fetch("http://localhost:3000/tickets", {
               method: "POST",
               headers: {
@@ -154,20 +154,20 @@
               })
             });
       
-            // Refresh the details view
+           
             renderFilmDetails({ ...film, tickets_sold: updatedTicketsSold });
           }
         };
       
-        // Delete a film from the server
+       
         const deleteFilm = async (filmId) => {
           await fetch(`http://localhost:3000/films/${filmId}`, {
             method: "DELETE"
           });
-          fetchFilms(); // Refresh film list after deletion
+          fetchFilms(); 
         };
       
-        // Initial fetch of films on page load
+      
         fetchFilms();
       });
       
